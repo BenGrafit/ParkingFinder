@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "563515128789",
+    "project_id": "parkingspots-b1afa",
+    "storage_bucket": "parkingspots-b1afa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563515128789:android:a07f7779664da3002e5b5c",
+        "android_client_info": {
+          "package_name": "com.example.parkingfinder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByBWLFR1D_AhcoxeD57xdDSv74b3YQyYI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

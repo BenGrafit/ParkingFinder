@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 🟩 כפתור חיפוש לפי קואורדינטות -->
+    <item
+        android:id="@+id/action_search"
+        android:title="חפש חנייה"
+        android:showAsAction="always"
+        android:icon="@android:drawable/ic_menu_search" />
+
+    <!-- 🟩 סינון – הצג רק חניות פנויה -->
+    <item
+        android:id="@+id/action_empty_only"
+        android:title="הצג רק חניות פנויה"
+        android:showAsAction="never" />
+
+    <!-- 🟩 הצגת הכל בזמן אמת -->
+    <item
+        android:id="@+id/action_live_all"
+        android:title="הצג הכל בזמן אמת"
+        android:showAsAction="never" />
+</menu>
