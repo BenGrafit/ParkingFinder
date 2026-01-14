@@ -1,6 +1,7 @@
 package com.example.parkingfinder;
 
 import androidx.annotation.Nullable;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

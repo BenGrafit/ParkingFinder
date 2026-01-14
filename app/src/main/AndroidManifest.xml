@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -13,7 +16,8 @@
         android:theme="@style/Theme.ParkingFinder"
         tools:targetApi="31">
 
-        <!-- THIS ONE is the only launcher -->
+
+        <!-- Launcher Activity -->
         <activity
             android:name=".login_main"
             android:exported="true"
@@ -27,7 +31,7 @@
 
         </activity>
 
-        <!-- This is NOT launcher -->
+        <!-- MainActivity (non-launcher) -->
         <activity
             android:name=".MainActivity"
             android:exported="false" />

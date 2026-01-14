@@ -33,10 +33,11 @@ public class login_main extends AppCompatActivity {
         CheckBox stay =findViewById(R.id.stay);
         Button Signin = findViewById(R.id.Signin);
         TextView Signup = findViewById(R.id.noAccount);
-        Account thisUser = new Account(Email.getText().toString().trim(), Password.getText().toString().trim());
+
 
 
         Signin.setOnClickListener(v ->{
+            Account thisUser = new Account(Email.getText().toString().trim(), Password.getText().toString().trim());
             Intent intent = new Intent(this, MainActivity.class);
             helper.AccountExists(thisUser,
                     e -> Toast.makeText(this,
@@ -46,7 +47,7 @@ public class login_main extends AppCompatActivity {
                     exists -> {
 
                     if (exists) {
-                        Toast.makeText(this, "משתמש קיים", Toast.LENGTH_SHORT).show();
+                        startActivity(intent);
                     } else {
                         Toast.makeText(this, "משתמש לא נמצא", Toast.LENGTH_SHORT).show();
                     }}

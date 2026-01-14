@@ -1,131 +1,129 @@
 package com.example.parkingfinder;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.widget.Button;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
-import android.view.Menu;
-import android.view.View;
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.RecyclerView;
-import com.example.parkingfinder.Adapter;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.List;
-
-
-
-
-
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import org.osmdroid.api.IMapController;
+import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements ParkingSpotAdapter.OnParkingSpotAction {
+public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private ParkingSpotAdapter adapter;
+    private MapView map = null;
     private FireStoreHelper helper;
     private FloatingActionButton addSpotBtn;
 
-
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Load osmdroid configuration
+        Context ctx = getApplicationContext();
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+
         setContentView(R.layout.activity_main);
 
-        // אתחול FirestoreHelper
+        // Initialize Map
+        map = findViewById(R.id.map);
+        map.setTileSource(TileSourceFactory.MAPNIK);
+        map.setMultiTouchControls(true);
+
+        IMapController mapController = map.getController();
+        mapController.setZoom(15.0);
+        GeoPoint startPoint = new GeoPoint(32.0853, 34.7818); // Default to Tel Aviv
+        mapController.setCenter(startPoint);
+
+        // Initialize Firestore helper
         helper = new FireStoreHelper();
 
-        // אתחול RecyclerView וה-Adapter
-        recyclerView = findViewById(R.id.recyclerView);
-        adapter = new ParkingSpotAdapter(this); // this = מימוש OnParkingSpotAction
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+        // Add spot button logic
         addSpotBtn = findViewById(R.id.AddSpot);
-
-        // האזנה בזמן אמת לשינויים ב-ParkingSpots
-        helper.listenToParkingSpots(new ParkingSpotListener() {
-            @Override
-            public void onUpdate(List<ParkingSpot> updatedList) {
-                adapter.submitList(updatedList);
-            }
-
-            @Override
-            public void onError(Exception e) {
-                Toast.makeText(MainActivity.this,
-                        "שגיאה: " + e.getMessage(),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
         addSpotBtn.setOnClickListener(v ->
                 Adapter.showAddDialog(this, spot -> {
-                    // This code runs when the user clicks "Add" in the dialog
                     helper.addParkingSpot(
                             spot.getX(),
                             spot.getY(),
                             ref -> Toast.makeText(this, "חניה נוספה בהצלחה", Toast.LENGTH_SHORT).show(),
                             e -> Toast.makeText(this, "שגיאה: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-
                 })
         );
 
+        // Listen for parking spots and display them on map
+        helper.listenToParkingSpots(new ParkingSpotListener() {
+            @Override
+            public void onUpdate(List<ParkingSpot> updatedList) {
+                updateMapMarkers(updatedList);
+            }
 
-
+            @Override
+            public void onError(Exception e) {
+                Toast.makeText(MainActivity.this, "שגיאה בטעינת נתונים: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
+    private void updateMapMarkers(List<ParkingSpot> spots) {
+        if (map == null) return;
 
+        // Clear existing markers
+        map.getOverlays().clear();
 
-    // לחיצה רגילה על מקום חנייה
+        for (ParkingSpot spot : spots) {
+            GeoPoint point = new GeoPoint(spot.getX(), spot.getY());
+            Marker marker = new Marker(map);
+            marker.setPosition(point);
+            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            
+            // Set marker color based on status
+            Drawable icon = ContextCompat.getDrawable(this, org.osmdroid.library.R.drawable.marker_default);
+            if (icon != null) {
+                icon = DrawableCompat.wrap(icon).mutate();
+                if (spot.isEmpty()) {
+                    DrawableCompat.setTint(icon, ContextCompat.getColor(this, android.R.color.holo_green_light));
+                    marker.setTitle("חניה פנויה");
+                    marker.setSubDescription("לחץ לפרטים נוספים");
+                } else {
+                    DrawableCompat.setTint(icon, ContextCompat.getColor(this, android.R.color.holo_red_light));
+                    marker.setTitle("חניה תפוסה");
+                }
+                marker.setIcon(icon);
+            }
+
+            map.getOverlays().add(marker);
+        }
+        
+        map.invalidate(); // Refresh map
+    }
+
     @Override
-    public void onClick(ParkingSpot spot) {
-        Toast.makeText(this, "נבחר מקום חנייה: x=" + spot.getX() + ", y=" + spot.getY(),
-                Toast.LENGTH_SHORT).show();
+    public void onResume() {
+        super.onResume();
+        if (map != null) map.onResume();
     }
-
-
-    // לחיצה ארוכה על מקום חנייה
 
     @Override
-    public void onLongClick(ParkingSpot spot) {
-        // First dialog: choose Delete or Go Back
-        new AlertDialog.Builder(this)
-                .setTitle("אפשרויות מקום חנייה")
-                .setMessage("מה תרצה לעשות עם מקום החנייה הזה?")
-                .setPositiveButton("מחק", (dialog, which) -> {
-                    // Confirmation dialog before actual deletion
-                    new AlertDialog.Builder(this)
-                            .setTitle("אישור מחיקה")
-                            .setMessage("האם אתה בטוח שברצונך למחוק את מקום החנייה?")
-                            .setPositiveButton("כן", (confirmDialog, confirmWhich) -> {
-                                // Delete from Firestore
-                                helper.deleteParkingSpot(
-                                        spot.getId(),  // <-- use Firebase document ID here
-                                        a -> Toast.makeText(this, "מקום חנייה נמחק", Toast.LENGTH_SHORT).show(),
-                                        e -> Toast.makeText(this, "שגיאה: " + e.getMessage(), Toast.LENGTH_SHORT).show()
-                                );
-
-                            })
-                            .setNegativeButton("לא", null)
-                            .show();
-                })
-                .setNegativeButton("חזור", null)
-                .show();
+    public void onPause() {
+        super.onPause();
+        if (map != null) map.onPause();
     }
-
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        helper.stopListening(); // עצירת האזנה בזמן יציאה
+        if (helper != null) helper.stopListening();
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu); // <-- your menu file
-        return true; // must return true
-    }
-
 }

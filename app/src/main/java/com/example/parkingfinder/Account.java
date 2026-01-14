@@ -1,28 +1,28 @@
 package com.example.parkingfinder;
 
 public class Account {
-    private String Email;
-    private String Password;
+    private String email;
+    private String password;
 
     public Account(String email, String password) {
-        Email = email;
-        Password = password;
+        this.email = email;
+        this.password = password;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setPassword(String password) {
-        Password = password;
+        this.password = password;
     }
 
 }
