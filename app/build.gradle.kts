@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.parkingfinder"
-        minSdk = 34
+        minSdk = 28
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -43,13 +43,16 @@ android {
 }
 
 dependencies {
-    // Firebase
-    implementation("com.google.firebase:firebase-analytics-ktx:21.3.0")
-    implementation("com.google.firebase:firebase-firestore-ktx:24.6.0")
-    implementation("com.google.firebase:firebase-auth-ktx:22.1.1")
+    // Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:34.8.0"))
+
+    // Firebase (Using non-KTX versions for better compatibility with Java files)
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-auth")
 
     // Google Sign-In
-    implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("com.google.android.gms:play-services-auth:21.5.0")
 
     // AndroidX / Material
     implementation("androidx.appcompat:appcompat:1.7.1")

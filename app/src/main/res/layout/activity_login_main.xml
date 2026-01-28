@@ -42,17 +42,23 @@
         app:layout_constraintTop_toBottomOf="@id/stay"
         android:layout_marginTop="30dp"
         />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/googleSignInButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/Signin"
+        android:layout_marginTop="20dp" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/noAccount"
-        app:layout_constraintTop_toBottomOf="@id/Signin"
+        app:layout_constraintTop_toBottomOf="@id/googleSignInButton"
         android:text="Sign up here!"
         android:textSize="20dp"
         android:gravity="center"
         android:layout_marginTop="20dp"
         android:textColor="@color/lightblue"/>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
