@@ -7,12 +7,11 @@
 
     <!-- Map -->
     <org.osmdroid.views.MapView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <!-- Floating Button -->
+    <!-- Add Spot Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/AddSpot"
         android:layout_width="wrap_content"
@@ -21,5 +20,15 @@
         android:layout_gravity="bottom|end"
         android:contentDescription="הוסף חנייה"
         app:srcCompat="@android:drawable/ic_input_add" />
+
+    <!-- Center on Location Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/CenterLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|start"
+        android:contentDescription="מרכז על המיקום שלי"
+        app:srcCompat="@android:drawable/ic_menu_mylocation" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

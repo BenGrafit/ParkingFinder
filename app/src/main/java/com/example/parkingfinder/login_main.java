@@ -3,9 +3,12 @@ package com.example.parkingfinder;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -25,12 +28,23 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class   login_main extends AppCompatActivity {
+public class login_main extends AppCompatActivity {
 
     private static final String TAG = "GoogleSignIn";
     private FireStoreHelper helper;
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
+
+    private final ActivityResultLauncher<String[]> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
+                Boolean fineLocationGranted = result.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false);
+                Boolean coarseLocationGranted = result.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false);
+                if (fineLocationGranted != null && fineLocationGranted || coarseLocationGranted != null && coarseLocationGranted) {
+                    Toast.makeText(this, "Location permission granted", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Location permission is required for the map to work properly.", Toast.LENGTH_LONG).show();
+                }
+            });
 
     private final ActivityResultLauncher<Intent> googleSignInLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -65,6 +79,9 @@ public class   login_main extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_main);
+
+        // Request permissions immediately
+        checkAndRequestPermissions();
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -105,6 +122,15 @@ public class   login_main extends AppCompatActivity {
                 e -> Toast.makeText(login_main.this, "Error adding user", Toast.LENGTH_SHORT).show())));
 
         googleSignInButton.setOnClickListener(v -> signInWithGoogle());
+    }
+
+    private void checkAndRequestPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissionLauncher.launch(new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            });
+        }
     }
 
     private void signInWithGoogle() {
