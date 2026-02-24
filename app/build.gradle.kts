@@ -63,6 +63,7 @@ dependencies {
 
     // osmdroid for OpenStreetMap
     implementation("org.osmdroid:osmdroid-android:6.1.20")
+    implementation("com.github.MKergall:osmbonuspack:6.9.0")
 
     // Testing
     testImplementation("junit:junit:4.13.2")

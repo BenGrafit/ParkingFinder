@@ -5,11 +5,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Map -->
-    <org.osmdroid.views.MapView
-        android:id="@+id/map"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/addressSearch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="הכנס כתובת"
+                android:completionThreshold="3"/>
+
+            <Button
+                android:id="@+id/searchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="חפש"/>
+        </LinearLayout>
+
+        <org.osmdroid.views.MapView
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
 
     <!-- Add Spot Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -17,7 +44,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:layout_gravity="bottom|end"
+        app:layout_anchor="@id/map"
+        app:layout_anchorGravity="bottom|end"
         android:contentDescription="הוסף חנייה"
         app:srcCompat="@android:drawable/ic_input_add" />
 
@@ -27,7 +55,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:layout_gravity="bottom|start"
+        app:layout_anchor="@id/map"
+        app:layout_anchorGravity="bottom|start"
         android:contentDescription="מרכז על המיקום שלי"
         app:srcCompat="@android:drawable/ic_menu_mylocation" />
 

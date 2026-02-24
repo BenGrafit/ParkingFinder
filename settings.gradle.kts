@@ -11,6 +11,7 @@ dependencyResolutionManagement {
     repositories {
         google()       // for Play Services / Firebase
         mavenCentral() // for standard dependencies
+        maven { url = uri("https://jitpack.io") } // for OSMBonusPack
     }
 }
 
