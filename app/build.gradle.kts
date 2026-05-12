@@ -61,6 +61,11 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.6.0")
     implementation("androidx.navigation:navigation-ui-ktx:2.6.0")
 
+    // Gemini SDK
+    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
+    // Guava for ListenableFuture (Gemini SDK uses it for Java compatibility)
+    implementation("com.google.guava:guava:31.1-android")
+
     // osmdroid for OpenStreetMap
     implementation("org.osmdroid:osmdroid-android:6.1.20")
     implementation("com.github.MKergall:osmbonuspack:6.9.0")

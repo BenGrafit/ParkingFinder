@@ -9,15 +9,22 @@
         android:id="@+id/edtX"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="קואורדינטת X"
+        android:hint="קואורדינטת X (קו רוחב)"
         android:inputType="numberDecimal"/>
 
     <EditText
         android:id="@+id/edtY"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="קואורדינטת Y"
+        android:hint="קואורדינטת Y (קו אורך)"
         android:inputType="numberDecimal"
         android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btnUseCurrentLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="השתמש במיקום הנוכחי שלי" />
 
 </LinearLayout>

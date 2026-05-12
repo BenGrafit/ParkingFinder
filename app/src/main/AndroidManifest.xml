@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application
         android:allowBackup="true"
@@ -18,10 +20,9 @@
         android:theme="@style/Theme.ParkingFinder"
         tools:targetApi="31">
 
-
         <!-- Launcher Activity -->
         <activity
-            android:name=".login_main"
+            android:name=".LoginActivity"
             android:exported="true"
             android:label="@string/title_activity_login_main"
             android:theme="@style/Theme.ParkingFinder">
@@ -37,6 +38,19 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".ParkingListActivity"
+            android:exported="false"
+            android:label="רשימת חניות" />
+
+        <provider
+            android:name=".SearchHistoryProvider"
+            android:authorities="com.example.parkingfinder.searchprovider"
+            android:exported="false" />
+
+        <receiver android:name=".ArrivalReceiver" android:exported="false" />
+
     </application>
 
 </manifest>

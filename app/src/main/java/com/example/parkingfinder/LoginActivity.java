@@ -28,7 +28,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class login_main extends AppCompatActivity {
+/**
+ * LoginActivity - Handles user authentication via email/password and Google Sign-In.
+ */
+public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "GoogleSignIn";
     private FirebaseRepository repository;
@@ -94,32 +97,34 @@ public class login_main extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         repository = new FirebaseRepository();
-        EditText Email = findViewById(R.id.Email);
-        EditText Password = findViewById(R.id.Password);
-        Button Signin = findViewById(R.id.Signin);
-        TextView Signup = findViewById(R.id.noAccount);
+        EditText emailField = findViewById(R.id.Email);
+        EditText passwordField = findViewById(R.id.Password);
+        Button signInButton = findViewById(R.id.Signin);
+        TextView signUpLink = findViewById(R.id.noAccount);
         SignInButton googleSignInButton = findViewById(R.id.googleSignInButton);
 
-        Signin.setOnClickListener(v -> {
-            Account thisUser = new Account(Email.getText().toString().trim(), Password.getText().toString().trim());
-            repository.checkAccountExists(thisUser,
-                    e -> Toast.makeText(login_main.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show(),
+        signInButton.setOnClickListener(v -> {
+            String email = emailField.getText().toString().trim();
+            String password = passwordField.getText().toString().trim();
+            Account userAccount = new Account(email, password);
+            repository.checkAccountExists(userAccount,
+                    e -> Toast.makeText(LoginActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show(),
                     exists -> {
                         if (exists) {
-                            Intent intent = new Intent(login_main.this, MainActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
                         } else {
-                            Toast.makeText(login_main.this, "User not found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "User not found", Toast.LENGTH_SHORT).show();
                         }
                     });
         });
 
-        Signup.setOnClickListener(v -> Adapter.showSignUp(login_main.this, account -> repository.addAccount(
+        signUpLink.setOnClickListener(v -> DialogUtils.showSignUpDialog(LoginActivity.this, account -> repository.addAccount(
                 account.getEmail().trim(),
                 account.getPassword().trim(),
-                ref -> Toast.makeText(login_main.this, "User added successfully", Toast.LENGTH_SHORT).show(),
-                e -> Toast.makeText(login_main.this, "Error adding user", Toast.LENGTH_SHORT).show())));
+                ref -> Toast.makeText(LoginActivity.this, "User added successfully", Toast.LENGTH_SHORT).show(),
+                e -> Toast.makeText(LoginActivity.this, "Error adding user", Toast.LENGTH_SHORT).show())));
 
         googleSignInButton.setOnClickListener(v -> signInWithGoogle());
     }
@@ -148,14 +153,14 @@ public class login_main extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         String email = user != null ? user.getEmail() : "";
-                        Toast.makeText(login_main.this, "Signed in: " + email, Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(login_main.this, MainActivity.class);
+                        Toast.makeText(LoginActivity.this, "Signed in: " + email, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
                     } else {
                         String errorMsg = task.getException() != null ? task.getException().getMessage() : "Auth Failed";
                         Log.e(TAG, "Firebase auth failed", task.getException());
-                        Toast.makeText(login_main.this, "Firebase Auth Failed: " + errorMsg, Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, "Firebase Auth Failed: " + errorMsg, Toast.LENGTH_LONG).show();
                     }
                 });
     }

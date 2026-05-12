@@ -3,6 +3,7 @@ package com.example.parkingfinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,9 +14,6 @@ import java.util.List;
 
 public class ParkingSpotAdapter extends RecyclerView.Adapter<ParkingSpotAdapter.VH> {
 
-    /**
-     * ממשק להעברת פעולות מה-Adapter ל-Activity
-     */
     public interface OnParkingSpotAction {
         void onClick(ParkingSpot spot);
         void onLongClick(ParkingSpot spot);
@@ -38,7 +36,7 @@ public class ParkingSpotAdapter extends RecyclerView.Adapter<ParkingSpotAdapter.
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_parking_spot, parent, false); // XML מותאם
+                .inflate(R.layout.item_parking_spot, parent, false);
         return new VH(v);
     }
 
@@ -46,8 +44,12 @@ public class ParkingSpotAdapter extends RecyclerView.Adapter<ParkingSpotAdapter.
     public void onBindViewHolder(@NonNull VH h, int pos) {
         ParkingSpot spot = data.get(pos);
 
-        h.txtStatus.setText(spot.isEmpty() ? "פנוי" : "לא פנוי");
-        h.txtCoordinates.setText(String.format("x: %.2f, y: %.2f", spot.getX(), spot.getY()));
+        h.txtStatus.setText(spot.isEmpty() ? "פנוי" : "תפוס");
+        h.txtCoordinates.setText(String.format("Lat: %.5f, Lon: %.5f", spot.getX(), spot.getY()));
+        h.chkEmpty.setChecked(spot.isEmpty());
+        
+        // Disable checkbox interaction if it's just for display, or handle it
+        h.chkEmpty.setEnabled(false);
 
         h.itemView.setOnClickListener(v -> action.onClick(spot));
         h.itemView.setOnLongClickListener(v -> {
@@ -61,11 +63,13 @@ public class ParkingSpotAdapter extends RecyclerView.Adapter<ParkingSpotAdapter.
 
     static class VH extends RecyclerView.ViewHolder {
         TextView txtStatus, txtCoordinates;
+        CheckBox chkEmpty;
 
         VH(@NonNull View itemView) {
             super(itemView);
             txtStatus = itemView.findViewById(R.id.txtStatus);
             txtCoordinates = itemView.findViewById(R.id.txtCoordinates);
+            chkEmpty = itemView.findViewById(R.id.chkEmpty);
         }
     }
 }

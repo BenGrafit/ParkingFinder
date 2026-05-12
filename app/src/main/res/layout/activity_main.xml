@@ -14,15 +14,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="8dp">
+            android:padding="8dp"
+            android:gravity="center_vertical">
 
-            <AutoCompleteTextView
+            <EditText
                 android:id="@+id/addressSearch"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="הכנס כתובת"
-                android:completionThreshold="3"/>
+                android:hint="הכנס כתובת" />
+
+            <ImageButton
+                android:id="@+id/voiceSearchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_btn_speak_now"
+                android:contentDescription="Speech to text"
+                android:padding="8dp"/>
 
             <Button
                 android:id="@+id/searchButton"
@@ -31,11 +40,25 @@
                 android:text="חפש"/>
         </LinearLayout>
 
-        <org.osmdroid.views.MapView
-            android:id="@+id/map"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1">
+
+            <org.osmdroid.views.MapView
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/suggestionsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:elevation="4dp"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        </FrameLayout>
     </LinearLayout>
 
     <!-- Add Spot Button -->
@@ -59,5 +82,16 @@
         app:layout_anchorGravity="bottom|start"
         android:contentDescription="מרכז על המיקום שלי"
         app:srcCompat="@android:drawable/ic_menu_mylocation" />
+
+    <!-- List View Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnListView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_anchor="@id/map"
+        app:layout_anchorGravity="top|end"
+        android:contentDescription="רשימת חניות"
+        app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
