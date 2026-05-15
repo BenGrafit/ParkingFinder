@@ -1,58 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="3dp">
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/dividerColor">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="12dp"
+        android:padding="16dp"
         android:gravity="center_vertical">
 
-        <!-- אייקון חנייה -->
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgParkingSpot"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@color/lightblue"
+            android:padding="10dp"
             android:src="@android:drawable/ic_menu_compass"
-            android:layout_marginEnd="12dp"/>
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+            app:tint="@color/colorPrimary" />
 
-        <!-- פרטי החנייה -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginHorizontal="16dp"
             android:orientation="vertical">
 
-            <!-- מצב החנייה -->
             <TextView
                 android:id="@+id/txtStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="פנוי/לא פנוי"
-                android:textSize="16sp"
+                android:text="חנייה פנויה"
+                android:textColor="@color/textPrimary"
+                android:textSize="18sp"
                 android:textStyle="bold"/>
 
-            <!-- מיקום (X,Y) -->
             <TextView
                 android:id="@+id/txtCoordinates"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="X:0.0, Y:0.0"
-                android:textSize="14sp"
-                android:textColor="@android:color/darker_gray"/>
+                android:layout_marginTop="2dp"
+                android:text="32.0853, 34.7818"
+                android:textColor="@color/textSecondary"
+                android:textSize="14sp"/>
         </LinearLayout>
 
-        <!-- צ'קבוקס אם המקום פנוי -->
-        <CheckBox
+        <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/chkEmpty"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:checked="true"
+            app:buttonTint="@color/colorAccent" />
+
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

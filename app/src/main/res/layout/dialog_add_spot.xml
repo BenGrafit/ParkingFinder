@@ -1,30 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="20dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="הוספת מקום חנייה"
+        android:textColor="@color/textPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
 
     <EditText
         android:id="@+id/edtX"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
+        android:background="@drawable/bg_rounded_card"
         android:hint="קואורדינטת X (קו רוחב)"
-        android:inputType="numberDecimal"/>
+        android:inputType="numberDecimal"
+        android:paddingHorizontal="16dp"
+        android:textSize="16sp" />
 
     <EditText
         android:id="@+id/edtY"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_rounded_card"
         android:hint="קואורדינטת Y (קו אורך)"
         android:inputType="numberDecimal"
-        android:layout_marginTop="8dp"/>
+        android:paddingHorizontal="16dp"
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/btnUseCurrentLocation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="השתמש במיקום הנוכחי שלי" />
+        android:layout_height="56dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/bg_button"
+        android:text="השתמש במיקום הנוכחי שלי"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:backgroundTint="@null"
+        xmlns:app="http://schemas.android.com/apk/res-auto" />
 
 </LinearLayout>

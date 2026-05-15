@@ -1,97 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+    tools:context=".MainActivity">
 
+    <!-- Map occupies the entire background -->
+    <org.osmdroid.views.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Top floating search container -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/searchCard"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="8dp"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp">
+
+                <ImageButton
+                    android:id="@+id/voiceSearchButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Search by voice"
+                    android:src="@android:drawable/ic_btn_speak_now"
+                    app:tint="@color/textSecondary" />
+
+                <EditText
+                    android:id="@+id/addressSearch"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="חפש כתובת או חנייה..."
+                    android:imeOptions="actionSearch"
+                    android:inputType="textAutoCorrect"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/textPrimary"
+                    android:textColorHint="@color/textSecondary"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="24dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:background="@color/dividerColor" />
+
+                <ImageButton
+                    android:id="@+id/searchButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Search"
+                    android:src="@android:drawable/ic_menu_search"
+                    app:tint="@color/colorPrimary" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Suggestions list appearing below the search bar -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/suggestionsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="8dp"
-            android:gravity="center_vertical">
-
-            <EditText
-                android:id="@+id/addressSearch"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="הכנס כתובת" />
-
-            <ImageButton
-                android:id="@+id/voiceSearchButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@android:drawable/ic_btn_speak_now"
-                android:contentDescription="Speech to text"
-                android:padding="8dp"/>
-
-            <Button
-                android:id="@+id/searchButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="חפש"/>
-        </LinearLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <org.osmdroid.views.MapView
-                android:id="@+id/map"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/suggestionsRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:elevation="4dp"
-                android:visibility="gone"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-        </FrameLayout>
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_rounded_card"
+            android:elevation="8dp"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
     </LinearLayout>
 
-    <!-- Add Spot Button -->
+    <!-- Floating Action Buttons - Placed at the end to be on top -->
+
+    <!-- Add Spot: Bottom Right -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/AddSpot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        app:layout_anchor="@id/map"
-        app:layout_anchorGravity="bottom|end"
+        app:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@android:drawable/ic_menu_add"
+        app:tint="@color/white"
         android:contentDescription="הוסף חנייה"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:elevation="12dp"
+        app:pressedTranslationZ="12dp" />
 
-    <!-- Center on Location Button -->
+    <!-- Center Location: Above Add Spot -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/CenterLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:layout_anchor="@id/map"
-        app:layout_anchorGravity="bottom|start"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="88dp"
+        app:backgroundTint="@color/surfaceColor"
+        app:srcCompat="@android:drawable/ic_menu_mylocation"
+        app:tint="@color/textPrimary"
         android:contentDescription="מרכז על המיקום שלי"
-        app:srcCompat="@android:drawable/ic_menu_mylocation" />
+        app:elevation="12dp" />
 
-    <!-- List View Button -->
+    <!-- List View: Bottom Left -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnListView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
         android:layout_margin="16dp"
-        app:layout_anchor="@id/map"
-        app:layout_anchorGravity="top|end"
+        app:backgroundTint="@color/surfaceColor"
+        app:srcCompat="@android:drawable/ic_menu_sort_by_size"
+        app:tint="@color/textPrimary"
         android:contentDescription="רשימת חניות"
-        app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
+        app:elevation="12dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

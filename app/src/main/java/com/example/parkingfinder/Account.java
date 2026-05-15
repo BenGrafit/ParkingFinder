@@ -1,14 +1,11 @@
 package com.example.parkingfinder;
 
-import com.google.firebase.firestore.GeoPoint;
-
 /**
  * Data model for User Account.
  */
 public class Account {
     private String email;
     private String password;
-    private GeoPoint lastParkingLocation;
 
     // Default constructor required for Firestore
     public Account() {}
@@ -32,13 +29,5 @@ public class Account {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public GeoPoint getLastParkingLocation() {
-        return lastParkingLocation;
-    }
-
-    public void setLastParkingLocation(GeoPoint lastParkingLocation) {
-        this.lastParkingLocation = lastParkingLocation;
     }
 }

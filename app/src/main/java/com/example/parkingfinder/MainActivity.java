@@ -8,7 +8,6 @@ import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MapView map;
     private EditText addressSearch;
-    private Button searchButton;
+    private ImageButton searchButton;
     private ImageButton voiceSearchButton;
     private FloatingActionButton addSpotBtn;
     private FloatingActionButton centerLocationBtn;
